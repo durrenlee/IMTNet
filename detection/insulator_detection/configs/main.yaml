@@ -1,0 +1,130 @@
+defaults:
+  - _self_
+  - model: insulatordetandstr   # insulator detection & str model
+#  - charset: 94_full
+#  - dataset: real
+#  - detmodel: detection
+#  - strmodel: lvt4str
+
+# abs_root: /PUT/YOUR/PATH/HERE
+abs_root: /root
+
+model:
+  # base model
+  _convert_: all
+#  name: insulatordetandstr
+#  _target_: models.framework.insulator_det_and_recog.InsulatorDetAndReco
+  batch_size: 2
+#  img_size: [32, 128]
+  img_size: [224, 224]
+  max_label_length: 25
+  # The ordering in charset_train matters. It determines the token IDs assigned to each character.
+  # 94 full
+  charset_train: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+  # For charset_test, ordering doesn't matter.
+  charset_test: "0123456789abcdefghijklmnopqrstuvwxyz"
+  det_lr: 1e-4
+  str_lr: 8.4e-5
+  str_weight_decay: 0.2    # 0.2 for str
+  str_coef_lr: 19.0
+  str_coef_wd: 1.0
+  str_warmup_pct: 0.075  # equivalent to 1.5 epochs of warm up
+  code_path: ${abs_root}/dilateformer-main-DwConv-dcn/detection/insulator_detection
+  train_dataset_size:
+  val_dataset_size:
+  # str dataset
+  str_dataset_root_dir: ${abs_root}/data/insulator_dataset/lmdb
+  str_dataset_output_url: null
+  str_dataset_train_dir: 'real'
+  str_dataset_remove_whitespace: true
+  str_dataset_normalize_unicode: true
+  str_dataset_augment: true
+  str_dataset_num_workers: 8
+  str_dataset_openai_meanstd: true
+
+  # detection model
+  detection_config_path: ${abs_root}/dilateformer-main-DwConv-dcn/detection/configs/lgtvit/tood_lightwgtvit_integration.py
+  detection_val_json: ${abs_root}/data/insulator_dataset/labels_v1.2_val_coco.json
+  detection_train_json: ${abs_root}/data/insulator_dataset/labels_v1.2_train_coco.json
+  detection_merged_val_json: ${abs_root}/data/insulator_dataset/val/annotations/annotations.json
+  detection_merged_train_json: ${abs_root}/data/insulator_dataset/train/annotations/annotations.json
+  detection_merged_val_images: ${abs_root}/data/insulator_dataset/val/images
+  detection_merged_train_images: ${abs_root}/data/insulator_dataset/train/images
+  str_merged_cropped_imgs_train: ${abs_root}/data/insulator_dataset/train/cropped_imgs
+  str_merged_cropped_imgs_val: ${abs_root}/data/insulator_dataset/val/cropped_imgs
+  # lmdb and maps creation
+  str_lmdb_train: ${abs_root}/data/insulator_dataset/lmdb/train/real/idid/train
+  str_synth_dir: ${abs_root}/data/insulator_dataset/lmdb/train/synth
+  str_lmdb_val: ${abs_root}/data/insulator_dataset/lmdb/val/idid
+  str_map_dir: ${abs_root}/data/insulator_dataset/map
+  str_lmdb_test: ${abs_root}/data/insulator_dataset/lmdb/test
+  str_map_file_train: ${abs_root}/data/insulator_dataset/map/str_map_file_train.json
+  str_map_file_val: ${abs_root}/data/insulator_dataset/map/str_map_file_val.json
+  str_batch_size: 128
+
+#  has_det_branch: false
+#  has_str_branch: true
+
+
+data:
+  _target_: data.data_loader_module.InsulatorDataModule
+#  _target_: data.module.SceneTextDataModule
+#  root_dir: ${abs_root}/data/str_dataset
+  root_dir: ${abs_root}/data/insulator_dataset
+#  output_url: null
+#  train_dir: real
+  batch_size: ${model.batch_size}
+  val_batch_size: 1
+  test_batch_size: 1
+  str_img_size: ${model.img_size}
+  det_img_size: [800, 1333]   # resize expect [h, w]
+#  img_size: ${model.img_size}
+  charset_train: ${model.charset_train}
+  charset_test: ${model.charset_test}
+  max_label_length: ${model.max_label_length}
+  remove_whitespace: true
+  normalize_unicode: true
+#  augment: true    #  for str dataloader
+  rand_augment: false  # for detection dataloader
+  num_workers: 8
+  openai_meanstd: true
+
+# trainer only for detection
+trainer:
+  _target_: pytorch_lightning.Trainer
+  _convert_: all
+  check_val_every_n_epoch: 1
+  max_epochs: 150
+  gpus: 1
+  accumulate_grad_batches: 1
+  deterministic: true
+  enable_progress_bar: true
+#  num_sanity_val_steps: 0  # 0: no sanity val
+
+# str module data is loaded manually in code.
+#trainer:
+#  _target_: pytorch_lightning.Trainer
+#  _convert_: all
+#  val_check_interval: 0.5   # 0.5 for str, 1 for detection
+#  max_epochs: 36
+#  gradient_clip_val: 20 # if use manual optimization, comment it out
+#  gpus: 1
+#  accumulate_grad_batches: 1
+#  deterministic: true
+#  enable_progress_bar: true
+
+
+
+ckpt_path: null
+pretrained: null
+swa: false
+experiment: insulatordetandstr
+
+hydra:
+  output_subdir: config
+  run:
+    # use absolute dir here for full control
+    dir: ${abs_root}/output/${model.name}_${now:%Y-%m-%d}_${now:%H-%M-%S}
+  sweep:
+    dir: ${abs_root}/output/${model.name}_${now:%Y-%m-%d}_${now:%H-%M-%S}
+    subdir: ${hydra.job.override_dirname}

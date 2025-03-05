@@ -1,0 +1,112 @@
+name: insulatordetandstr
+_target_: models.framework.insulator_det_and_recog.InsulatorDetAndReco
+
+# Data
+img_size: [224, 224]
+patch_size: [16, 16]  # [ height, width ]
+
+# Architecture
+embed_dim: 512
+enc_num_heads: 12
+enc_mlp_ratio: 4
+enc_depth: 12
+enc_width: 768
+dec_num_heads: 8
+dec_mlp_ratio: 4
+dec_depth: 1
+enc_del_cls: false
+dec_ndim_no_decay: true
+context_length: 16
+use_language_model_fusion: true
+image_detach: true
+type_embedding: false
+cross_gt_context: true
+cross_cloze_mask: false
+cross_extra_attn: false
+cross_correct_once: false
+cross_loss_w: 1.0
+# cross_logit_w: 1.0
+itm_loss: false
+itm_loss_weight: 0.1
+cross_token_embeding: false
+fusion_model: false
+# freeze_layer_num: -1
+image_freeze_nlayer: -1
+text_freeze_nlayer: 6
+image_freeze_layer_divisor: 0
+image_only_fc: false
+use_share_dim: true
+clip_cls_eot_feature: false
+
+# Training
+perm_num: 6
+perm_forward: true
+perm_mirrored: true
+dropout: 0.1
+
+# Decoding mode (test)
+decode_ar: true
+refine_iters: 1
+# clip_refine: false
+
+
+# pretrained
+freeze_backbone: false
+freeze_language_backbone: false
+clip_pretrained: /root/pretrained/open_clip_pytorch_model.bin
+find_unused_parameters: true
+
+# custom visual encoder for str
+lgtvit_img_size:
+  - 224
+  - 224
+lgtvit_patch_size: 4
+lgtvit_in_chans: 3
+lgtvit_num_classes: 1000
+lgtvit_embed_dim: 96 # base
+#lgtvit_embed_dim: 72  # tiny, small\
+lgtvit_depths: [2,4,6,2]  # tiny
+#lgtvit_depths: [1,2,3,1]  # very tiny
+#lgtvit_depths: [3,5,8,5]  # small
+# lgtvit_depths: [4, 8, 21, 5] # 4, 8: local stages, 21, 4: global stages
+# lgtvit_depths: [4, 8, 10, 3]
+# lgtvit_depths: [4, 9, 22, 5]
+# lgtvit_depths: [6, 10, 24, 5]
+#lgtvit_groups: [4,8,18,36] # for dim:72
+lgtvit_groups: [4, 8, 24, 48] # for dim:96
+# lgtvit_groups: [4, 12, 24, 48]  # for dim:96
+lgtvit_num_heads: [3,6,12,24]
+lgtvit_kernel_size: 3
+lgtvit_dilation: [1,2,3]
+lgtvit_mlp_ratio: 4.
+lgtvit_qkv_bias: True
+lgtvit_qk_scale:
+lgtvit_drop: 0.
+lgtvit_attn_drop: 0.
+lgtvit_drop_path: 0.1
+lgtvit_norm_layer: 'layer_norm'
+lgtvit_merging_way: 'conv3_2'
+lgtvit_patch_way: 'overlaping'
+lgtvit_dilate_attention: ['dilate', 'dilate', 'dcn', 'dcn']
+#lgtvit_downsamples: [True,True,True,False]
+lgtvit_downsamples: [True,True,True,True]
+lgtvit_cpe_per_satge: False
+lgtvit_cpe_per_block: True
+lgtvit_offset_scale: 1.0
+lgtvit_dw_kernel_size: 3
+lgtvit_center_feature_scale: False
+lgtvit_remove_center: False
+lgtvit_output_bias: True
+lgtvit_without_pointwise: False
+lgtvit_out_indices:
+  - 0
+  - 1
+  - 2
+  - 3
+lgtvit_task: 'STR'
+lgtvit_init_cfg:
+
+#det_img_size:
+#  - 800
+#  - 1333
+#det_config_path: /root/dilateformer-main-DwConv-dcn/detection/configs/lgtvit/tood_lightwgtvit_integration.py
