@@ -40,12 +40,12 @@ bash read.sh 0 checkpoint.ckpt /YOUR TEST IMAGES FOLDER/
 #### /annotations
  annotations.json
 #### /cropped_imgs
-#### images
+#### /images
 ### /val
 #### /annotations
 annotations.json
 #### /cropped_imgs
-####images
+#### /images
 ### /test
 
 ## annotation structure
