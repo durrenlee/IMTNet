@@ -19,6 +19,7 @@
 12. pip install scipy
 13. pip install shapely==2.0.6
 14. pip install tensorboard==2.17.0
+15. [DCNv4 installation](../../classification/README.md)
 
 ### architecture
 ![architecture](../insulator_detection/result/archi.jpg)
@@ -28,7 +29,7 @@ bash insulator_det_str.sh
 
 ## TEST
 1. bash test.sh 0 last.ckpt
-2. test log: [test log](https://github.com/durrenlee/IMTNet/tree/main/detection/insulator_detection/result/test.txt)
+2. [test log](../insulator_detection/result/test.txt)
 
 
 ## Inference
