@@ -28,11 +28,19 @@
 5. pip install mmcv==2.1.0
 6. pip install pycocotoos
 
+
+### architecture
+![architecture](../classification/result/archi.jpg)
+
 ## Train
+```
 python -m torch.distributed.launch  --nproc_per_node=1 --master_port=12346 --use_env main.py --data-path  /root/data/imagenet --model multiscalelgtformer_tiny --batch-size 128 --lr 1e-3 --drop-path 0.1 --epoch 300 --dist-eval --output_dir /root/output/imagenet
+```
 
 ## Evaluation
+```
 python -m torch.distributed.launch  --nproc_per_node=1 --master_port=12346 --use_env main.py --data-path  /root/data/tiny-imagenet-200 --model multiscalelgtformer_tiny --batch-size 128 --lr 1e-3 --drop-path 0.1 --epoch 300 --eval --output_dir /root/output
+```
 
 ## image classification on CIFAR-100
 ### DADCN-ViT_T(tiny version):
