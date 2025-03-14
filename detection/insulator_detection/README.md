@@ -24,7 +24,7 @@
 bash insulator_det_str.sh
 
 ## TEST
-1. command: bash test.sh
+1. bash test.sh 0 last.ckpt
 2. test log: [test log](https://github.com/durrenlee/IMTNet/tree/main/detection/insulator_detection/result/test.txt)
 
 
