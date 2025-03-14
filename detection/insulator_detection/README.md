@@ -25,7 +25,7 @@ bash insulator_det_str.sh
 
 ## TEST
 1. command: bash test.sh
-2. test log: [test log](https://github.com/durrenlee/IMTNet/tree/main/detection/insulator_detection/result/test-log.txt)
+2. test log: [test log](https://github.com/durrenlee/IMTNet/tree/main/detection/insulator_detection/result/test.txt)
 
 
 ## Inference
