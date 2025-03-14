@@ -25,15 +25,21 @@
 ![architecture](../insulator_detection/result/archi.jpg)
 
 ## Train
+```
 bash insulator_det_str.sh
+```
 
 ## TEST
-1. bash test.sh 0 last.ckpt
+```
+bash test.sh 0 last.ckpt
+```
 2. [test log](../insulator_detection/result/test.txt)
 
 
 ## Inference
+```
 bash read.sh 0 checkpoint.ckpt /YOUR TEST IMAGES FOLDER/
+```
 
 ## dataset for defective insulator dataset with marked text 
 ### /train
