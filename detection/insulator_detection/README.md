@@ -35,3 +35,87 @@ bash insulator_det_str.sh
 ## Inference
 bash read.sh 0 checkpoint.ckpt /YOUR TEST IMAGES FOLDER/
 
+## - dataset for defective insulator dataset with marked text 
+###-train
+####--annotations
+---annotations.json
+####--cropped_imgs
+####--images
+###-val
+####--annotations
+---annotations.json
+####--cropped_imgs
+####--images
+###-test
+
+## - annotation structure
+```annotation structure
+{
+    "data":[
+            {
+                "id": 0,
+                "file_name": "130032.jpg",
+                "width": 4288,
+                "height": 2848,
+                "obj_annotations": [
+                    {
+                        "id": 0,
+                        "image_id": 0,
+                        "category_id": 0,
+                        "bbox": [
+                            2128,
+                            1194,
+                            405,
+                            213
+                        ],
+                        "area": 86265,
+                        "iscrowd": 0
+                    },
+                    ...
+                ],
+                "label_annotations": [
+                       {
+                            "id": 0,
+                            "image_id": 0,
+                            "label": "LOCKE",
+                            "vertex_points": [
+                                [
+                                    2322,
+                                    1296
+                                ],
+                                [
+                                    2399,
+                                    1292
+                                ],
+                                [
+                                    2402,
+                                    1317
+                                ],
+                                [
+                                    2324,
+                                    1320
+                                ]
+                            ],
+                             "cropped_img": "130032_0.jpg"
+                       },
+                       ...
+                ]
+            }
+            ...         
+    ],
+    "categories": [
+        {
+            "id": 0,
+            "name": "No issues"
+        },
+        {
+            "id": 1,
+            "name": "Broken"
+        },
+        {
+            "id": 2,
+            "name": "Flashover damage"
+        }
+    ]
+}
+```
