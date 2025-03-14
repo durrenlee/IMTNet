@@ -20,6 +20,9 @@
 13. pip install shapely==2.0.6
 14. pip install tensorboard==2.17.0
 
+### architecture
+![architecture](../insulator_detection/result/archi.jpg)
+
 ## Train
 bash insulator_det_str.sh
 
