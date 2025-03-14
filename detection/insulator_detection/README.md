@@ -36,17 +36,17 @@ bash insulator_det_str.sh
 bash read.sh 0 checkpoint.ckpt /YOUR TEST IMAGES FOLDER/
 
 ## - dataset for defective insulator dataset with marked text 
-###-train
-####--annotations
----annotations.json
-####--cropped_imgs
-####--images
-###-val
-####--annotations
----annotations.json
-####--cropped_imgs
-####--images
-###-test
+###train
+####annotations
+ annotations.json
+####cropped_imgs
+####images
+###val
+####annotations
+annotations.json
+####cropped_imgs
+####images
+###test
 
 ## - annotation structure
 ```annotation structure
