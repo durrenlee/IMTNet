@@ -1,0 +1,78 @@
+(base) root@gpu-1060d08eb7c133b4f2ebf-1-9718:~/dilateformer-main-DwConv-dcn/detection/text_detection# bash test.sh 0 last.ckpt
+Namespace(checkpoint='/root/workspace/output/vl4str_2024-10-19_14-23-49/checkpoints/last.ckpt', data_root='/root/data/str_dataset', batch_size=256, num_workers=4, cased=False, punctuation=False, new=True, rotation=0, device='cuda', clip_model_path='/root/pretrained/ViT-B-16.pt', clip_refine=False, sample_K=5, sample_K2=5, sample_total=50, sample_prompt=None, alpha=0.1)
+Additional keyword arguments: {'charset_test': '0123456789abcdefghijklmnopqrstuvwxyz'}
+load weights from checkpoint /root/workspace/output/vl4str_2024-10-19_14-23-49/checkpoints/last.ckpt
+args.checkpoint:
+/root/workspace/output/vl4str_2024-10-19_14-23-49/checkpoints/last.ckpt
+_get_model_class, key:
+/root/workspace/output/vl4str_2024-10-19_14-23-49/checkpoints/last.ckpt
+
+ config of VL4STR:
+         image_freeze_nlayer: -1, text_freeze_nlayer: 6, freeze_language_backbone: False, freeze_image_backbone: False
+         use_language_model: True, context_length: 16, cross_token_embeding: False, cross_loss_weight: 1.0
+         use_share_dim: True, image_detach: True, clip_cls_eot_feature: False
+         cross_gt_context: True, cross_cloze_mask: False, cross_fast_decode: False
+
+loading checkpoint from /root/pretrained/open_clip_pytorch_model.bin
+The dimension of the visual decoder is 512.
+[dataset] mean (0.48145466, 0.4578275, 0.40821073), std (0.26862954, 0.26130258, 0.27577711)
+      ArT:   0%|                                                                                                                                           | 0/138 [00:00<?, ?it/s]/opt/miniconda/lib/python3.10/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at ../aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+/opt/miniconda/lib/python3.10/site-packages/torch/nn/functional.py:5109: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  warnings.warn(
+      ArT: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 138/138 [01:08<00:00,  2.01it/s]
+ COCOv1.4: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 39/39 [00:19<00:00,  2.03it/s]
+   CUTE80: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:02<00:00,  1.01s/it]
+     HOST: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:05<00:00,  1.76it/s]
+IC13_1015: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:04<00:00,  1.20s/it]
+IC15_1811: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:04<00:00,  1.72it/s]
+IC15_2077: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 9/9 [00:05<00:00,  1.78it/s]
+   IIIT5k: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [00:06<00:00,  1.75it/s]
+      SVT: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:02<00:00,  1.24it/s]
+     SVTP: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:02<00:00,  1.39it/s]
+     Uber: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 315/315 [02:31<00:00,  2.08it/s]
+     WOST: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:05<00:00,  1.82it/s]
+Benchmark (Subset) set:
+| Dataset   | # samples | Accuracy | 1 - NED | Confidence | Label Length |
+|:---------:|----------:|---------:|--------:|-----------:|-------------:|
+| IIIT5k    |      3000 |    98.47 |   99.67 |      96.65 |         5.09 |
+| SVT       |       647 |    97.68 |   99.41 |      96.44 |         5.86 |
+| IC13_1015 |      1015 |    97.93 |   99.41 |      97.48 |         5.31 |
+| IC15_1811 |      1811 |    90.50 |   97.04 |      93.19 |         5.36 |
+| IC15_2077 |      2077 |    89.31 |   96.59 |      92.13 |         5.33 |
+| SVTP      |       645 |    95.19 |   98.63 |      94.80 |         5.86 |
+| CUTE80    |       288 |    99.31 |   99.87 |      96.64 |         5.53 |
+| HOST      |      2416 |    71.03 |   91.94 |      81.56 |         5.36 |
+| WOST      |      2416 |    84.48 |   95.44 |      88.60 |         5.39 |
+|-----------|-----------|----------|---------|------------|--------------|
+| Combined  |     14315 |    88.93 |   96.80 |      91.62 |         5.35 |
+
+
+Benchmark set:
+| Dataset   | # samples | Accuracy | 1 - NED | Confidence | Label Length |
+|:---------:|----------:|---------:|--------:|-----------:|-------------:|
+| IIIT5k    |      3000 |    98.47 |   99.67 |      96.65 |         5.09 |
+| SVT       |       647 |    97.68 |   99.41 |      96.44 |         5.86 |
+| IC13_1015 |      1015 |    97.93 |   99.41 |      97.48 |         5.31 |
+| IC15_1811 |      1811 |    90.50 |   97.04 |      93.19 |         5.36 |
+| IC15_2077 |      2077 |    89.31 |   96.59 |      92.13 |         5.33 |
+| SVTP      |       645 |    95.19 |   98.63 |      94.80 |         5.86 |
+| CUTE80    |       288 |    99.31 |   99.87 |      96.64 |         5.53 |
+| HOST      |      2416 |    71.03 |   91.94 |      81.56 |         5.36 |
+| WOST      |      2416 |    84.48 |   95.44 |      88.60 |         5.39 |
+|-----------|-----------|----------|---------|------------|--------------|
+| Combined  |     14315 |    88.93 |   96.80 |      91.62 |         5.35 |
+
+
+New set:
+| Dataset  | # samples | Accuracy | 1 - NED | Confidence | Label Length |
+|:--------:|----------:|---------:|--------:|-----------:|-------------:|
+| ArT      |     35149 |    83.65 |   94.41 |      90.69 |         5.40 |
+| COCOv1.4 |      9825 |    79.69 |   92.75 |      85.52 |         5.92 |
+| Uber     |     80551 |    81.63 |   91.30 |      84.16 |         5.32 |
+|----------|-----------|----------|---------|------------|--------------|
+| Combined |    125525 |    82.04 |   92.28 |      86.10 |         5.39 |
+
+
+Time: Total 281.27733635902405s, Average 2.011422599821396ms. Total samples 139840.
+(base) root@gpu-1060d08eb7c133b4f2ebf-1-9718:~/dilateformer-main-DwConv-dcn/detection/text_detection#
